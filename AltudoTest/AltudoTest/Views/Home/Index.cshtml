@@ -12,7 +12,7 @@
                         <label class="visually-hidden" for="inlineFormInputGroupUsername">Username</label>
                         <div class="input-group">
                             <div class="input-group-text"><i class="bi bi-globe"></i></div>
-                            <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="e.g. https://www.altudo.co">
+                            <input type="text" class="form-control" id="urlAddress" placeholder="e.g. https://www.altudo.co">
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -26,74 +26,8 @@
 <div class="py-2 bg-light">
     <div class="container">
         <div class="row">
-            <div class="col-8">
-                <h4>Images found</h4>
-                <img src="https://getbootstrap.com.br/docs/4.1/assets/img/bootstrap-stack.png" class="img-thumbnail img-fluid" width="100" alt="...">
-                <img src="https://getbootstrap.com.br/docs/4.1/assets/img/bootstrap-stack.png" class="img-thumbnail img-fluid" width="100" alt="...">
-                <img src="https://getbootstrap.com.br/docs/4.1/assets/img/bootstrap-stack.png" class="img-thumbnail img-fluid" width="100" alt="...">
-                <img src="https://getbootstrap.com.br/docs/4.1/assets/img/bootstrap-stack.png" class="img-thumbnail img-fluid" width="100" alt="...">
-                <img src="https://getbootstrap.com.br/docs/4.1/assets/img/bootstrap-stack.png" class="img-thumbnail img-fluid" width="100" alt="...">
-                <img src="https://getbootstrap.com.br/docs/4.1/assets/img/bootstrap-stack.png" class="img-thumbnail img-fluid" width="100" alt="...">
-                <img src="https://getbootstrap.com.br/docs/4.1/assets/img/bootstrap-stack.png" class="img-thumbnail img-fluid" width="100" alt="...">
-                <img src="https://getbootstrap.com.br/docs/4.1/assets/img/bootstrap-stack.png" class="img-thumbnail img-fluid" width="100" alt="...">
-                <img src="https://getbootstrap.com.br/docs/4.1/assets/img/bootstrap-stack.png" class="img-thumbnail img-fluid" width="100" alt="...">
-                <img src="https://getbootstrap.com.br/docs/4.1/assets/img/bootstrap-stack.png" class="img-thumbnail img-fluid" width="100" alt="...">
-                <img src="https://getbootstrap.com.br/docs/4.1/assets/img/bootstrap-stack.png" class="img-thumbnail img-fluid" width="100" alt="...">
-                <img src="https://getbootstrap.com.br/docs/4.1/assets/img/bootstrap-stack.png" class="img-thumbnail img-fluid" width="100" alt="...">
-            </div>
-            <div class="col-4">
-                <canvas id="myChart"></canvas>
-            </div>
-        </div>
-
-            <script>
-                $(function () {
-
-                    var _labels = ['Red', 'Blue', 'Yellow'];
-                    var _data = [300, 50, 100];
-                    var _color = [];
-
-
-                    var dynamicColors = function () {
-                        var r = Math.floor(Math.random() * 255);
-                        var g = Math.floor(Math.random() * 255);
-                        var b = Math.floor(Math.random() * 255);
-                        return "rgb(" + r + "," + g + "," + b + ")";
-                    };
-
-                    for (var i in _data) {
-                        _color.push(dynamicColors());
-                    }
-
-
-                    const data = {
-                        labels: _labels,
-                        datasets: [{
-                            data: _data,
-                            backgroundColor: _color
-                        }]
-                    };
-
-                    const config = {
-                        type: 'pie',
-                        data: data,
-                        options: {
-                            plugins: {
-                                title: {
-                                    display: true,
-                                    text: 'Most used words'
-                                }
-                            }
-                        }
-                    };
-
-                    var myChart = new Chart(
-                        document.getElementById('myChart'),
-                        config
-                    );
-                });
-
-
-            </script>
+            <div class="col-8 imagesFound"></div>
+            <div class="col-4 report"></div>
         </div>
     </div>
+</div>

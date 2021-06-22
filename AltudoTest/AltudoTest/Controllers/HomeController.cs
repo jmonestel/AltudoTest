@@ -22,13 +22,24 @@ namespace AltudoTest.Controllers
 
         public IActionResult Index()
         {
-
             return View();
         }
 
-        public IActionResult Privacy()
+        public JsonResult GetUrlData(string url)
         {
-            return View();
+            if (!String.IsNullOrEmpty(url) && !url.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+            {
+                url = String.Format("{0}://{1}", "http", url);
+            }
+
+
+            var resultado = new
+            {
+                Nome = "Linha de Código",
+                URL = "www.linhadecodigo.com.br"
+            };
+
+            return Json(resultado);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
