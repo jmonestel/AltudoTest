@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AltudoTest.Models;
 
+
+
 namespace AltudoTest.Controllers
 {
     public class HomeController : Controller
@@ -20,6 +22,7 @@ namespace AltudoTest.Controllers
 
         public IActionResult Index()
         {
+
             return View();
         }
 
