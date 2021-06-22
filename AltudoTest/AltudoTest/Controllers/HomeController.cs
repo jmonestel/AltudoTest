@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AltudoTest.Models;
-
-
+using AltudoTest.Aplicacao;
 
 namespace AltudoTest.Controllers
 {
@@ -27,19 +26,26 @@ namespace AltudoTest.Controllers
 
         public JsonResult GetUrlData(string url)
         {
-            if (!String.IsNullOrEmpty(url) && !url.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+            var retorno = new DadosExtraidosViewModel();
+            try
             {
-                url = String.Format("{0}://{1}", "http", url);
+                var aplicacao = new ExtracaoDados(url);
+
+                if (aplicacao.ValidaRequisicao())
+                {
+                    retorno.Imagens = aplicacao.ObterImagens();
+                    retorno.Palavras = aplicacao.ObterPalavrasMaisUsadas(3);
+                } else
+                {
+                    retorno.MensagemErro = aplicacao.mensagemErro;
+                }
+            }
+            catch (Exception ex)
+            {
+                retorno.MensagemErro = ex.Message;
             }
 
-
-            var resultado = new
-            {
-                Nome = "Linha de Código",
-                URL = "www.linhadecodigo.com.br"
-            };
-
-            return Json(resultado);
+            return Json(retorno);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

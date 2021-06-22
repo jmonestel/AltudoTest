@@ -6,80 +6,103 @@ $(document).ready(function () {
     $('form').on('submit', function (e) {
         e.preventDefault();
 
-        console.log($("#urlAddress").val());
+        $("#btPesquisar").addClass("disabled btn-secondary");
+        $("#btPesquisar").text("Aguarde!");
 
         $.post("./Home/GetUrlData", { url: $("#urlAddress").val() }, function (data) {
-            console.log("entrou")
-            console.log(data)
 
-            addImages();
-            addChart();
+            limparDados();
 
+            if (data.mensagemErro != null) {
+                $("div.imagesFound").append("<h4>" + data.mensagemErro+"</h4>");
+            } else {
+                
+                addImages(data.imagens);
+                addChart(data.palavras);
+            }
         })
         .done(function () {
-            console.log("second success");
+            $("#btPesquisar").removeClass("disabled btn-secondary");
+            $("#btPesquisar").text("Pesquisar");
         })
         .fail(function () {
-            console.log("error");
+            
         })
 
     });
 
 
-    var addImages = function () {
+    var limparDados = function () {
         $("div.imagesFound").children().remove();
+        $("canvas#myChart").remove();
+    }
 
-        $("div.imagesFound").append("<h4>Images found</h4>");
-        for (var i = 0; i < 19; i++) {
-            $("div.imagesFound").append('<img src="https://getbootstrap.com.br/docs/4.1/assets/img/bootstrap-stack.png" class="img-thumbnail img-fluid" width="100">');
+    var addImages = function (imagens) {
+        
+        
+        if (imagens != null) {
+            $("div.imagesFound").append("<h4>Imagens encontradas</h4>");
+            for (var i = 0; i < imagens.length; i++) {
+                $("div.imagesFound").append('<img src="' + imagens[i] + '" class="img-thumbnail img-fluid" width="100">');
+            }
+        } else {
+            $("div.imagesFound").append("<h4>Não foram encontradas imagens</h4>");
         }
     }
 
 
+    var addChart = function (palavras) {
+        
 
-    var addChart = function () {
-        $("canvas#myChart").remove();
-
-        var _labels = ['Red', 'Blue', 'Yellow'];
-        var _data = [300, 50, 100];
-        var _color = [];
-
-
-        var dynamicColors = function () {
-            var r = Math.floor(Math.random() * 255);
-            var g = Math.floor(Math.random() * 255);
-            var b = Math.floor(Math.random() * 255);
-            return "rgb(" + r + "," + g + "," + b + ")";
-        };
-        for (var i in _data) {
-            _color.push(dynamicColors());
-        }
+        if (palavras != null)
+        {
+            var _labels = [];
+            var _data = [];
+            var _color = [];
 
 
-        const data = {
-            labels: _labels,
-            datasets: [{
-                data: _data,
-                backgroundColor: _color
-            }]
-        };
+            var dados = Object.entries(palavras);
+            for (var i = 0; i < dados.length; i++) {
+                _labels.push(dados[i][0]);
+                _data.push(dados[i][1]);
+            }
 
-        const config = {
-            type: 'pie',
-            data: data,
-            options: {
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Most used words'
+            var dynamicColors = function () {
+                var r = Math.floor(Math.random() * 255);
+                var g = Math.floor(Math.random() * 255);
+                var b = Math.floor(Math.random() * 255);
+                return "rgb(" + r + "," + g + "," + b + ")";
+            };
+            for (var i in _data) {
+                _color.push(dynamicColors());
+            }
+
+
+            const data = {
+                labels: _labels,
+                datasets: [{
+                    data: _data,
+                    backgroundColor: _color
+                }]
+            };
+
+            const config = {
+                type: 'pie',
+                data: data,
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Palavras mais usadas'
+                        }
                     }
                 }
-            }
-        };
+            };
 
-        
-        $("div.report").append('<canvas id="myChart" class="animated fadeIn"></canvas>');
-        var ctx = document.getElementById("myChart").getContext("2d");
-        var myChart = new Chart(ctx, config);
+
+            $("div.report").append('<canvas id="myChart" class="animated fadeIn"></canvas>');
+            var ctx = document.getElementById("myChart").getContext("2d");
+            var myChart = new Chart(ctx, config);
+        }
     }
 });
