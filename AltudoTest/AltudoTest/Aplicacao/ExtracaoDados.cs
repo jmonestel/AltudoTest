@@ -56,6 +56,7 @@ namespace AltudoTest.Aplicacao
         private async Task<HtmlDocument> FazRequisicao()
         {
             HtmlWeb web = new HtmlWeb();
+            //Juan teste
             return await web.LoadFromWebAsync(_uri, null, null);
         }
 
